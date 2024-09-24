@@ -23,6 +23,19 @@ connectionToDB();
 app.use(express.json()); 
 
 app.post('/addDocument', async(req ,res) => {
+	try {
+		const { DateVisited, CountryVisited, DateUpdated, Photo, WhoDidYouGoWith} = req.body;
+
+		const collection = client.db("travel").collection("entries");
+		await collection.insertOne({ DateVisited, CountryVisited, DateUpdated, Photo, WhoDidYouGoWith});
+		res.send("Document Added");
+	} catch (err) {
+		console.log(err);
+	}
+});
+
+
+app.post('/addDocument', async(req ,res) => {
 	const collection = client.db('travel').collection("entries");
 	const result = await collection.insertOne(req.body);
 	res.send(result);
